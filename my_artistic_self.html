@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="my_style.css">
   <meta charset="utf-8">
   <title>Port at Night</title>
   <style>
@@ -18,20 +19,20 @@
     /* same class for all keywords */
     .keyword { margin:6px 0; }
 
-    /* different look per keyword (ids) */
+    
     #kw1 { color:#ff6b6b; font-weight:bold; }   /* Passionate */
     #kw2 { color:#48d1a0; }                     /* Curious */
     #kw3 { color:#ffd166; }                     /* Improvement */
     #kw4 { color:#8ab6ff; }                     /* Serenity */
     #kw5 { color:#f0ffe5; }                     /* Dogs */
 
-    /* right = image + paragraph */
+    
     .right { flex:1; text-align:center; }
     .frame { display:inline-block; border:4px solid #eee; background:#eee; padding:8px; }
     .frame img { display:block; max-width:100%; height:auto; border:1px solid #ccc; }
     .text { text-align:left; max-width:800px; margin:12px auto 30px; line-height:1.6; }
 
-    /* footer link */
+    
     footer { max-width:900px; margin:0 auto 20px; padding:0 16px; text-align:left; }
     a { color:#9ec0ff; text-decoration:none; }
     a:hover { text-decoration:underline; }
@@ -42,7 +43,6 @@
     <h1>Port at Night</h1>
 
     <div class="row">
-      <!-- left: keywords -->
       <div class="left">
         <h2>Keywords</h2>
         <p class="keyword" id="kw1">Passionate</p>
@@ -52,7 +52,6 @@
         <p class="keyword" id="kw5">Dogs</p>
       </div>
 
-      <!-- right: image + text -->
       <div class="right">
         <div class="frame">
           <img src="images/port_at_night.avif" alt="Nighttime port with reflections on the water">
