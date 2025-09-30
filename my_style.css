@@ -1,0 +1,29 @@
+
+:root{
+  --link-normal:  #1ae828; 
+  --link-hover:   #da1bad; 
+  --link-visited: #1282cd; 
+}
+
+
+a:link {
+  color: var(--link-normal);
+  text-decoration: underline;
+  transition: color .15s ease, text-decoration-thickness .15s ease;
+}
+
+a:visited {
+  color: var(--link-visited); 
+}
+
+a:hover,
+a:focus,
+a:focus-visible {
+  color: var(--link-hover);
+  text-decoration-thickness: 2px; 
+  outline: 2px solid transparent; 
+}
+
+a:active {
+  color: var(--link-hover); 
+}
