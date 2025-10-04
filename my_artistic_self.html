@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="my_style.css">
   <meta charset="utf-8">
+  <nav class="site-nav" role="navigation" aria-label="Main">
+  <ul>
+    <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+    <li><a href="my_vacation.html">My Vacation</a></li>
+    <li><a href="my_artistic_self.html">My Artistic Self</a></li>
+  </ul>
+</nav>
   <title>Port at Night</title>
   <style>
     /* simple page setup */
@@ -39,6 +47,7 @@
   </style>
 </head>
 <body>
+  <div class="body_wrapper">
   <div class="container">
     <h1>Port at Night</h1>
 
@@ -68,13 +77,16 @@
       </div>
     </div>
   </div>
-
+</div>
   <footer>
     <nav>
   <a href="index.html" >Home</a>
   <a href="my_vacation.html" >My Vacation</a>
   <a href="my_artistic_self.html" aria-current="page">My Artistic Self</a>
 </nav>
+  </footer>
+  <footer class="site-footer" >
+    <p>This website is made for CS203 labs!</p>
   </footer>
 </body>
 </html>
