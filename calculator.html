@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculator</title>
+  <link rel="stylesheet" href="my_style.css" />
+
+  
+  <style>
+    .calculator_div { max-width: 900px; margin: 0 auto; }
+    .calculator_div fieldset { margin-top: 20px; border-radius: 12px; }
+    .answer { background-color: rgba(255,255,255,0.06); padding: 10px 12px; border-radius: 8px; }
+    .right { position: relative; left: 0; } 
+    @media (min-width: 800px) {
+      .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+      .right { left: 0; }
+    }
+    input[type="date"], input[type="text"], input[type="number"] {
+      padding: 8px 10px; border-radius: 8px; border: 1px solid #2a3552; background: #0b1022; color: #e5e7eb;
+    }
+    input[type="button"] {
+      padding: 8px 12px; border-radius: 10px; border: 1px solid #2a3552; background:#111827; color:#e5e7eb; cursor:pointer;
+    }
+    input[type="button"]:hover { background: #1a233a; }
+  </style>
+
+ 
+  <script src="calculator_utils.js"></script>
+  <script src="calculator.js"></script>
+</head>
+<body>
+  
+  <nav class="site-nav">
+    <div class="nav-wrap">
+      <a href="index.html">Home</a>
+      <a href="my_vacation.html">My dream vacations</a>
+      <a href="my_artistic_self.html">My artistic self</a>
+      <a href="marketplace.html">Marketplace</a>
+      <a class="active" href="calculator.html">Calculator</a>
+    </div>
+  </nav>
+
+  <main class="body_wrapper">
+    <div class="container">
+      <h1>Some calculators!</h1>
+
+      <div class="calculator_div">
+        
+        <div class="two-col">
+      
+          <fieldset>
+            <legend>How old are you in days?</legend>
+            <div>
+              <label for="DOB">Your date of birth</label><br />
+              <input type="date" id="DOB" />
+            </div>
+            <div>
+              <input type="button" id="submit_days" value="Compute" onclick="compute_days()" />
+            </div>
+            <div class="answer">
+              <p><strong>The answer is:</strong></p>
+              <p id="p_answer_days" aria-live="polite">(click compute)</p>
+            </div>
+          </fieldset>
+
+          
+          <fieldset class="right">
+            <legend>Biggest circle that fits your screen</legend>
+            <div>
+              <input type="button" id="submit_circle" value="Compute circle" onclick="compute_circle()" />
+            </div>
+            <div class="answer">
+              <p><strong>The answer is:</strong></p>
+              <p id="p_answer_circle" aria-live="polite">(click compute)</p>
+            </div>
+          </fieldset>
+        </div>
+
+        
+        <fieldset>
+          <legend>Palindrome checker</legend>
+          <div>
+            <label for="possible_palindrome">Text to check</label><br />
+            <input type="text" id="possible_palindrome" placeholder="racecar" />
+          </div>
+          <div>
+            <input type="button" id="submit_palindrome" value="Check" onclick="check_palindrome()" />
+          </div>
+          <div class="answer">
+            <p><strong>The answer is:</strong></p>
+            <p id="p_answer_palindrome" aria-live="polite">(click check)</p>
+          </div>
+        </fieldset>
+
+        
+        <fieldset class="right">
+          <legend>Fibonacci</legend>
+          <div>
+            <label for="fibo_length">How long should the Fibonacci sequence be?</label><br />
+            <input type="number" id="fibo_length" min="0" placeholder="10" />
+          </div>
+          <div>
+            <input type="button" id="submit_fibo" value="Create" onclick="create_fibo()" />
+          </div>
+          <div class="answer">
+            <p><strong>The answer is:</strong></p>
+            <p id="p_answer_fibo" aria-live="polite">(click create)</p>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    This website is made for CS203 labs!
+  </footer>
+
+  
+  <script>
+    (function () {
+      const here = location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('nav.site-nav a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === here);
+      });
+    })();
+  </script>
+</body>
+</html>
