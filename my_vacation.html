@@ -1,25 +1,33 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="my_style.css">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <nav class="site-nav" role="navigation" aria-label="Main">
+  <ul>
+    <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+    <li><a href="my_vacation.html">My Vacation</a></li>
+    <li><a href="my_artistic_self.html">My Artistic Self</a></li>
+  </ul>
+</nav>
     <title>My dream vacations</title>
     <style>
       img {
         border: 2px solid black;
-        border-radius: 12px;   /* ← round corners */
+        border-radius: 12px;
       }
     </style>
   </head>
   <body>
+    <div class="body_wrapper">
     <h1>My dream vacations</h1>
-
-    <a href="index.html">Link to go back to main page</a><br>
     <h3>This page is about the possible vacation places I'd like to visit one day</h3>
 
     <h2>Countries</h2>
 
-    <!-- Japan -->
+    
     <h3>Japan</h3>
     <h4>Exploring the countryside and reconnecting with my <strong>grandma</strong> who lives there</h4>
     <img src="images/countryside.webp" alt="Countryside in Japan" style="width:300px; height:auto;"><br>
@@ -28,7 +36,7 @@
 
     <hr>
 
-    <!-- Italy -->
+    
     <h3>Italy</h3>
     <h4>Enjoying the quiet, peaceful <strong>Italian countryside</strong></h4>
     <img src="images/Italy_countryside.avif" alt="Italian countryside" style="width:300px; height:auto;"><br>
@@ -37,7 +45,7 @@
 
     <hr>
 
-    <!-- France -->
+    
     <h3>France</h3>
     <h4>Admiring <strong>Mont-Saint-Michel</strong> from the outside</h4>
     <img src="images/Mont-Saint-Michel-Normandy.jpg" alt="Mont-Saint-Michel" style="width:300px; height:auto;"><br>
@@ -48,5 +56,17 @@
 
     <p>There are many more places I'd like to visit that come to mind,<br>
     but these are the <strong>main</strong> ones I'd like to go to.</p>
+    <p>Hopefully one day I'll be able to visit these places!</p>
+    <footer>
+      <nav>
+  <a href="index.html" >Home</a>
+  <a href="my_vacation.html" aria-current="page">My Vacation</a>
+  <a href="my_artistic_self.html">My Artistic Self</a>
+</nav>
+</div>
+    </footer>
+    <footer class="site-footer" >
+    <p>This website is made for CS203 labs!</p>
+  </footer>
   </body>
 </html>

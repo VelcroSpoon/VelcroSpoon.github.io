@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
+      <nav class="site-nav" role="navigation" aria-label="Main">
+  <ul>
+    <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+    <li><a href="my_vacation.html">My Vacation</a></li>
+    <li><a href="my_artistic_self.html">My Artistic Self</a></li>
+  </ul>
+  </nav>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="my_style.css">
         <title>Simon Grondin</title>
         <meta name="author" content="Simon Grondin">
         <meta charset="UTF-8">
     </head>
     <body>
+      <div class="body_wrapper">
         <h1>Hi, my name is Simon Grondin.</h1>
 
         <h2>About me</h2>
@@ -17,7 +27,7 @@
         <h2>List of Degrees and Schools throughout the years</h2>
     <table style="border:1px solid #333; border-collapse:collapse; width:100%; max-width:600px; font-family:Arial, sans-serif;">
   <tr>
-    <!-- Header row with background color -->
+    
     <th style="border:1px solid #333; padding:8px 12px; background:#eef4ff; text-align:left;">
       Degrees
     </th>
@@ -27,7 +37,7 @@
   </tr>
 
   <tr>
-    <!-- First column lightly tinted; Year centered -->
+    
     <td style="border:1px solid #333; padding:8px 12px; background:#f9fafb; text-align:left;">
       High School Diploma
         </td>
@@ -36,7 +46,7 @@
     </td>
   </tr>
 
-  <!-- Whole row with a different font -->
+  
   <tr style="font-family:'Courier New', monospace;">
     <td style="border:1px solid #333; padding:8px 12px; background:#f9fafb; text-align:left;">
       Algonquin College
@@ -47,7 +57,7 @@
   </tr>
 
   <tr>
-    <!-- Single cell with a different font + italic -->
+    
     <td style="border:1px solid #333; padding:8px 12px; background:#f9fafb; text-align:left; font-family:Georgia, 'Times New Roman', serif; font-style:italic;">
       Bishop's University
     </td>
@@ -65,8 +75,14 @@
     <li>I hate to admit it but I love watching documentaries on Youtube about various topics</li>
 </ul>
         <h2>Link to other pages</h2>
-            <a href="my_vacation.html">My dream vacation page</a>
-            <br>
-            <a href="my_artistic_self.html">My artistic self page</a>
-    </body>
+            <nav>
+            <a href="index.html" aria-current="page">Home</a>
+            <a href="my_vacation.html">My Vacation</a>
+            <a href="my_artistic_self.html">My Artistic Self</a>
+            </nav>
+          </div>
+    <footer class="site-footer">
+    <p>This website is made for CS203 labs!</p>
+  </footer>
+  </body>
 </html>
