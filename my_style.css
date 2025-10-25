@@ -103,51 +103,122 @@ tbody td:first-child{ background:#f9fafb; }
   padding: 8px 12px;
 }
 
----------------------------------------------------
 /* ---- Form style css for Part 2 ---- */
-form {
-  max-width: 640px;
-  margin: 0 auto;
-  background: #ffffff;
-  border: 1px solid #dce2ee;
-  border-radius: 12px;
-  padding: 16px 20px;
+
+#quiz-form{
+  max-width: 720px;
+  margin: 24px auto;
+  
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+  border: 1px solid #d6deee;
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 6px 20px rgba(11,18,32,0.08); 
 }
 
-fieldset {
+#quiz-form fieldset{
   border: 1px solid #c9d3e3;
-  border-radius: 10px;
-  padding: 16px 20px;
+  border-radius: 12px;
+  padding: 18px 20px;
+  background: color-mix(in srgb, var(--nav-bg) 60%, #fff 40%);
 }
 
-legend {
+#quiz-form legend{
   font-weight: 700;
-  padding: 0 6px;
+  padding: 0 10px;
+  color: var(--nav-text);
+  background: #e8eefb;
+  border: 1px solid #c9d3e3;
+  border-radius: 8px;
 }
 
-label { font-weight: 600; }
-input[type="text"],
-input[type="email"],
-input[type="number"],
-select,
-textarea {
+
+#quiz-form p{ margin: 12px 0; }
+
+
+#quiz-form label{
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #0b1220;
+}
+
+#quiz-form input[type="text"],
+#quiz-form input[type="email"],
+#quiz-form input[type="number"],
+#quiz-form select,
+#quiz-form textarea{
   width: 100%;
   max-width: 100%;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border: 1px solid #cfd7e6;
-  border-radius: 8px;
-  margin-top: 6px;
-  margin-bottom: 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #0b1220;
+  transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
 }
 
-button[type="submit"] {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  background: var(--nav-active-bg, #0b1220);
-  color: var(--nav-active-text, #fff);
-  font-weight: 600;
-  cursor: pointer;
+#quiz-form input:focus-visible,
+#quiz-form select:focus-visible,
+#quiz-form textarea:focus-visible{
+  outline: none;
+  border-color: var(--link);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--link) 30%, transparent);
+  background: #f9fbff;
 }
-button[type="submit"]:hover { opacity: 0.9; }
+
+
+#quiz-form input[type="radio"],
+#quiz-form input[type="checkbox"]{
+  transform: translateY(1px);
+  margin-right: 6px;
+}
+#quiz-form label input[type="radio"],
+#quiz-form label input[type="checkbox"]{
+  margin-right: 8px;
+}
+
+#quiz-form button[type="submit"]{
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(180deg, var(--nav-active-bg), color-mix(in srgb, var(--nav-active-bg) 85%, #000 0%));
+  color: var(--nav-active-text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .08s ease, opacity .15s ease, box-shadow .15s ease;
+  box-shadow: 0 4px 12px rgba(11,18,32,0.12);
+}
+#quiz-form button[type="submit"]:hover{
+  opacity: .96;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(11,18,32,0.16);
+}
+#quiz-form button[type="submit"]:active{
+  transform: translateY(0);
+}
+
+#quiz-form hr{
+  border: none;
+  border-top: 1px solid #e3e8f5;
+  margin: 16px 0;
+}
+
+#quiz-form input:invalid,
+#quiz-form textarea:invalid{
+  border-color: #d66;
+  background: #fff7f7;
+}
+
+@media (prefers-reduced-motion: reduce){
+  #quiz-form button[type="submit"],
+  #quiz-form input,
+  #quiz-form select,
+  #quiz-form textarea{
+    transition: none;
+  }
+}
+
 

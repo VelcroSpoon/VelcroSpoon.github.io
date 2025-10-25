@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="my_style.css" />
   <script src="nav.js"></script>
+  <script src="form.js"></script>
 </head>
 <body>
   <header>
@@ -20,25 +21,22 @@
   <main class="body_wrapper">
     <h1>Which type of student are you?</h1>
 
-    <form id="quiz-form" action="#" method="post">
-      <fieldset>
-        <legend>Tell us about you</legend>
+    <form id="quiz-form" action="#" method="post" onsubmit="return validate(event)">
+  <fieldset>
+    <legend>Tell us about you</legend>
 
-       
-        <p>
-          <label for="name">Your name</label><br>
-          <input type="text" id="name" name="name" required>
-        </p>
+    <p>
+      <label for="name">Your name</label><br>
+      <input type="text" id="name" name="name" placeholder="Jane Doe">
+    </p>
 
-       
-        <p>
-          <label for="email">Email</label><br>
-          <input type="email" id="email" name="email" required>
-        </p>
+    <p>
+      <label for="email">Email</label><br>
+      <input type="email" id="email" name="email" placeholder="jane@example.com">
+    </p>
 
-        <hr>
-
-        <legend>Quiz questions</legend>
+    <hr>
+    <legend>Quiz questions</legend>
 
         
         <p>
