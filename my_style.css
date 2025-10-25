@@ -94,3 +94,60 @@ tbody td:first-child{ background:#f9fafb; }
 @media (prefers-reduced-motion: reduce){
   .site-nav a{ transition: none; }
 }
+
+.site-nav a.current_page{
+  background: var(--nav-active-bg, #0b1220);
+  color: var(--nav-active-text, #ffffff) !important;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+---------------------------------------------------
+/* ---- Form style css for Part 2 ---- */
+form {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #dce2ee;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+fieldset {
+  border: 1px solid #c9d3e3;
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+legend {
+  font-weight: 700;
+  padding: 0 6px;
+}
+
+label { font-weight: 600; }
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cfd7e6;
+  border-radius: 8px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+}
+
+button[type="submit"] {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--nav-active-bg, #0b1220);
+  color: var(--nav-active-text, #fff);
+  font-weight: 600;
+  cursor: pointer;
+}
+button[type="submit"]:hover { opacity: 0.9; }
+

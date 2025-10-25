@@ -63,4 +63,3 @@ document.write("<h2> 3) Adding 1 coat at 99.99$ to the cart! </h2>");
 var coat = new ItemGroup("coat", 99.99, 1);
 my_cart.addItemGroup(coat);
 my_cart.showTotalAmount();
-//I took the liberty to slightly modify the js file

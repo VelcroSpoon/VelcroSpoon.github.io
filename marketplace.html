@@ -5,19 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Marketplace</title>
   <link rel="stylesheet" href="my_style.css" />
-  
+  <script src="nav.js"></script>
 </head>
 <body>
 
-  <nav class="site-nav">
-    <div class="nav-wrap">
-      <a href="index.html">Home</a>
-      <a href="my_vacation.html">My dream vacations</a>
-      <a href="my_artistic_self.html">My artistic self</a>
-      <a class="active" href="marketplace.html">Marketplace</a>
-      <a href="calculator.html">Calculator</a>
-    </div>
-  </nav>
+  <nav id="main-nav" class="site-nav"></nav>
+<script>
+  const current_path = location.pathname;  
+  setNav(current_path);                     
+</script>
 <script src="marketplace.js"></script>
   <main class="body_wrapper">
     <div class="container">
