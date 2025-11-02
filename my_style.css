@@ -98,8 +98,7 @@ tbody td:first-child{ background:#f9fafb; }
   padding: 8px 12px;
 }
 
-/* ---- Form style css for Part 2 ---- */
-
+/* ---- Form style css ---- */
 #quiz-form{
   max-width: 720px;
   margin: 24px auto;
@@ -262,5 +261,97 @@ tbody td:first-child{ background:#f9fafb; }
   #slide-next {
     padding: 4px 10px;
     font-size: 0.85rem;
+  }
+}
+
+/* ----- Part 3: to-do list styles ----- */
+#todo-form {
+  max-width: 520px;
+  margin: 16px 0 20px 0;
+  background: #fff;
+  border: 1px solid #d6deee;
+  border-radius: 12px;
+  padding: 14px 16px 18px 16px;
+  box-shadow: 0 3px 12px rgba(11,18,32,0.04);
+}
+
+#todo-form .todo-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.todo-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+#todo-text {
+  flex: 1 1 auto;
+  padding: 8px 12px;
+  border: 1px solid #cfd7e6;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+#todo-form button[type="submit"] {
+  border: none;
+  background: #0b1220;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#todo-form button[type="submit"]:hover {
+  background: #111827;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 520px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #d6deee;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(11,18,32,0.03);
+}
+
+.todo-text {
+  flex: 1 1 auto;
+  word-break: break-word;
+}
+
+.todo-trash {
+  cursor: pointer;
+  color: #ef4444;
+  font-size: 1rem;
+}
+
+.todo-trash:hover {
+  color: #b91c1c;
+}
+
+@media (max-width: 540px) {
+  .todo-input-row {
+    flex-direction: column;
+  }
+  #todo-form button[type="submit"] {
+    width: 100%;
+    text-align: center;
+  }
+  .todo-item {
+    gap: 8px;
   }
 }
