@@ -17,6 +17,7 @@
 
     <div class="body_wrapper">
       <h1>Hi, my name is Simon Grondin.</h1>
+
       <div class="slideshow">
         <div class="slideshow_img">
           <img src="images/BritishColumbia.jpg" alt="Mountain lake in Canada at sunrise">
@@ -27,11 +28,9 @@
         <div class="slideshow_img">
           <img src="images/lavender.jpg" alt="Lake with flowers and mountain in the background">
         </div>
-
         <a id="slide-prev" href="javascript:void(0)" onclick="previous()">❮ Prev</a>
         <a id="slide-next" href="javascript:void(0)" onclick="next()">Next ❯</a>
       </div>
-
       <h2>About me</h2>
 
       <p>- I'm a second-year computer science student at Bishop's University. I've been loving it so far as Bishop's has given me plenty of opportunities to meet new people and maintain those connections with the close campus setting. Living far from home also allows you to grow in a way you could never have imagined before.</p>
