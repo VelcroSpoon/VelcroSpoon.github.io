@@ -5,7 +5,6 @@
   <title>Port at Night</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="my_style.css">
-
   <style>
     body { margin:0; background:#111; color:#eee; }
     .container { max-width:900px; margin:40px auto; padding:0 16px; }
@@ -23,18 +22,11 @@
     .frame img { display:block; max-width:100%; height:auto; border:1px solid #ccc; }
     .text { text-align:left; max-width:800px; margin:12px auto 30px; line-height:1.6; }
   </style>
-  <script src="nav.js"></script>
 </head>
 <body>
-  
- <nav id="main-nav" class="site-nav"></nav>
-<script>
-  const current_path = location.pathname;   
-  setNav(current_path);                     
-</script>
+  <?php include_once 'nav.php'; ?>
 
-
-  <div class="body_wrapper">
+  <main class="body_wrapper">
     <div class="container">
       <h1>Port at Night</h1>
 
@@ -64,10 +56,8 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <footer>
-    This website is made for CS203 labs!
-  </footer>
+  <?php include_once 'footer.php'; ?>
 </body>
 </html>
