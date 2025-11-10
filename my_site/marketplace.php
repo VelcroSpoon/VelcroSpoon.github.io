@@ -5,25 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Marketplace</title>
   <link rel="stylesheet" href="my_style.css" />
-  <script src="nav.js"></script>
 </head>
 <body>
+  <?php include_once 'nav.php'; ?>
 
-  <nav id="main-nav" class="site-nav"></nav>
-<script>
-  const current_path = location.pathname;  
-  setNav(current_path);                     
-</script>
-<script src="marketplace.js"></script>
   <main class="body_wrapper">
     <div class="container">
-
-      
     </div>
   </main>
 
-  <footer>
-    This website is made for CS203 labs!
-  </footer>
+  <?php include_once 'footer.php'; ?>
+
+  <script src="marketplace.js"></script>
 </body>
 </html>
