@@ -1,3 +1,3 @@
-<footer class="site-footer">
-  <p>© <?= date('Y'); ?> Simon Grondin — CS203 Labs</p>
+<footer>
+  This website is made for CS203 labs!
 </footer>

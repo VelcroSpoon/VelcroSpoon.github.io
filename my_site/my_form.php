@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -12,18 +12,18 @@
   <main class="body_wrapper">
     <h1>Which type of student are you?</h1>
 
-    <form id="quiz-form" action="#" method="post" onsubmit="return validate(event)">
+    <form id="quiz-form" action="quiz_verification.php" method="get">
       <fieldset>
         <legend>Tell us about you</legend>
 
         <p>
           <label for="name">Your name</label><br>
-          <input type="text" id="name" name="name" placeholder="Jane Doe">
+          <input type="text" id="name" name="name" placeholder="Jane Doe" required>
         </p>
 
         <p>
           <label for="email">Email</label><br>
-          <input type="email" id="email" name="email" placeholder="jane@example.com">
+          <input type="email" id="email" name="email" placeholder="jane@example.com" required>
         </p>
 
         <hr>
@@ -38,10 +38,10 @@
 
         <p>
           <span>2) What tools do you use? (choose all that apply)</span><br>
-          <label><input type="checkbox" name="tools" value="flashcards"> Flashcards</label>
-          <label><input type="checkbox" name="tools" value="pomodoro"> Pomodoro timer</label>
-          <label><input type="checkbox" name="tools" value="study-group"> Study group</label>
-          <label><input type="checkbox" name="tools" value="slides"> Lecture slides</label>
+          <label><input type="checkbox" name="tools[]" value="flashcards"> Flashcards</label>
+          <label><input type="checkbox" name="tools[]" value="pomodoro"> Pomodoro timer</label>
+          <label><input type="checkbox" name="tools[]" value="study-group"> Study group</label>
+          <label><input type="checkbox" name="tools[]" value="slides"> Lecture slides</label>
         </p>
 
         <p>
