@@ -2,13 +2,11 @@
 require_once __DIR__.'/includes/config.php';
 session_start();
 
-// Gate: must be logged in
 if (empty($_SESSION['is_logged_in'])) {
   header('Location: ' . base_url() . 'login.php');
   exit;
 }
 
-// Prefer session username; fall back to cookie
 $username = $_SESSION['username'] ?? ($_COOKIE['todo-username'] ?? 'Student');
 ?>
 <!DOCTYPE html>
