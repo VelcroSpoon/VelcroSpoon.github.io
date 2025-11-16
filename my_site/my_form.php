@@ -1,44 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>My quiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="my_style.css" />
-  <script src="nav.js"></script>
-  <script src="form.js"></script>
 </head>
 <body>
-  <header>
-    <nav id="main-nav" class="site-nav"></nav>
-  </header>
-
-  <script>
-    const current_path = location.pathname;   
-    setNav(current_path);         
-  </script>
+  <?php include_once 'nav.php'; ?>
 
   <main class="body_wrapper">
     <h1>Which type of student are you?</h1>
 
-    <form id="quiz-form" action="#" method="post" onsubmit="return validate(event)">
-  <fieldset>
-    <legend>Tell us about you</legend>
+    <form id="quiz-form" action="quiz_verification.php" method="get">
+      <fieldset>
+        <legend>Tell us about you</legend>
 
-    <p>
-      <label for="name">Your name</label><br>
-      <input type="text" id="name" name="name" placeholder="Jane Doe">
-    </p>
+        <p>
+          <label for="name">Your name</label><br>
+          <input type="text" id="name" name="name" placeholder="Jane Doe" required>
+        </p>
 
-    <p>
-      <label for="email">Email</label><br>
-      <input type="email" id="email" name="email" placeholder="jane@example.com">
-    </p>
+        <p>
+          <label for="email">Email</label><br>
+          <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+        </p>
 
-    <hr>
-    <legend>Quiz questions</legend>
+        <hr>
+        <legend>Quiz questions</legend>
 
-        
         <p>
           <span>1) How do you plan your study time?</span><br>
           <label><input type="radio" name="plan" value="daily" required> Daily schedule</label><br>
@@ -46,22 +36,19 @@
           <label><input type="radio" name="plan" value="wing-it"> I wing it</label>
         </p>
 
-       
         <p>
           <span>2) What tools do you use? (choose all that apply)</span><br>
-          <label><input type="checkbox" name="tools" value="flashcards"> Flashcards</label>
-          <label><input type="checkbox" name="tools" value="pomodoro"> Pomodoro timer</label>
-          <label><input type="checkbox" name="tools" value="study-group"> Study group</label>
-          <label><input type="checkbox" name="tools" value="slides"> Lecture slides</label>
+          <label><input type="checkbox" name="tools[]" value="flashcards"> Flashcards</label>
+          <label><input type="checkbox" name="tools[]" value="pomodoro"> Pomodoro timer</label>
+          <label><input type="checkbox" name="tools[]" value="study-group"> Study group</label>
+          <label><input type="checkbox" name="tools[]" value="slides"> Lecture slides</label>
         </p>
 
-        
         <p>
           <label for="hours">3) Avg. study hours per day</label><br>
           <input type="number" id="hours" name="hours" min="0" max="24" step="1" placeholder="e.g., 3">
         </p>
 
-        
         <p>
           <label for="time">4) When do you study most?</label><br>
           <select id="time" name="time">
@@ -72,7 +59,6 @@
           </select>
         </p>
 
-        
         <p>
           <label for="strategy">5) Your #1 study strategy</label><br>
           <textarea id="strategy" name="strategy" rows="4" cols="40" placeholder="Briefly describe…"></textarea>
@@ -83,6 +69,7 @@
     </form>
   </main>
 
-  <footer>This website is made for CS203 labs!</footer>
+  <?php include_once 'footer.php'; ?>
+  <script src="form.js"></script>
 </body>
 </html>
