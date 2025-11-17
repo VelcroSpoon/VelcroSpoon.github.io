@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+<?php // my_form.php ?>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title>My quiz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="my_style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="my_style.css">
+  <script src="form.js"></script> <!-- optional client-side checks -->
 </head>
 <body>
   <?php include_once 'nav.php'; ?>
@@ -23,7 +25,7 @@
 
         <p>
           <label for="email">Email</label><br>
-          <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+          <input type="email" id="email" name="email" placeholder="jane@example.com">
         </p>
 
         <hr>
@@ -70,6 +72,5 @@
   </main>
 
   <?php include_once 'footer.php'; ?>
-  <script src="form.js"></script>
 </body>
 </html>
