@@ -1,57 +1,69 @@
-<?php require_once __DIR__ . '/config.php'; ?>
 <?php
-// Guard against missing required inputs (teacher note)
-if (!isset($_GET['name']) || trim($_GET['name']) === '' || !isset($_GET['plan'])) {
+// Guard against missing required GET fields
+if (!isset($_GET['name']) || trim($_GET['name']) === '') {
   http_response_code(400);
-  include __DIR__ . '/nav.php';
-  echo '<main class="body_wrapper"><h1>Form error</h1><p style="color:#b91c1c;">Missing required inputs. Please complete the form.</p><p><a href="' .
-       BASE_URL . 'my_form.php">Go back to the quiz</a></p></main>';
-  include __DIR__ . '/footer.php';
+  include_once __DIR__.'/nav.php';
+  echo '<main class="body_wrapper"><h1>Form error</h1><p style="color:#b91c1c;">Missing required inputs. Please complete the form.</p><p><a href="/home/sgrondin/my_form.php">Go back to the quiz</a></p></main>';
+  include_once __DIR__.'/footer.php';
   exit;
 }
 
-// --- Example scoring logic (keep/modify yours) ---
-$name  = htmlspecialchars($_GET['name'], ENT_QUOTES, 'UTF-8');
-$plan  = $_GET['plan'] ?? '';
-$tools = $_GET['tools'] ?? []; // array if checkbox
-$hours = (int) ($_GET['hours'] ?? 0);
+// Collect values (add more as needed)
+$name   = trim($_GET['name']);
+$email  = trim($_GET['email'] ?? '');
+$plan   = $_GET['plan'] ?? '';              // radio
+$hours  = isset($_GET['hours']) ? (int)$_GET['hours'] : 0;
+$tools  = $_GET['tools'] ?? [];             // array of checkboxes
+$time   = $_GET['time'] ?? '';
+$strat  = trim($_GET['strategy'] ?? '');
 
+// Simple scoring demo
 $score = 0;
-$score += ($plan === 'daily') ? 40 : (($plan === 'weekly') ? 25 : 10);
-$score += is_array($tools) ? min(count($tools) * 8, 24) : 0;
-$score += max(min($hours, 6), 0) * 6; // up to 36
-if ($score > 100) $score = 100;
+if ($plan === 'daily')  $score += 40;
+if ($plan === 'weekly') $score += 25;
+$score += max(0, min($hours, 8)) * 3;  // cap influence
+$score += in_array('flashcards', (array)$tools, true) ? 10 : 0;
+$score += in_array('pomodoro', (array)$tools, true)   ? 10 : 0;
+$score = max(0, min($score, 100));
 
-$category = ($score >= 50) ? 'Organized' : 'Still finding your rhythm';
+$cat = ($score >= 50) ? 'Organized Learner' : 'Explorer';
 ?>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Quiz Results</title>
+  <title>Quiz result for <?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="<?= BASE_URL ?>my_style.css">
+  <link rel="stylesheet" href="/home/sgrondin/my_style.css">
 </head>
 <body>
-  <?php include __DIR__ . '/nav.php'; ?>
+  <?php include_once __DIR__ . '/nav.php'; ?>
 
   <main class="body_wrapper">
-    <h1>Hi <?= $name ?>, here are your results</h1>
-    <p>Your score: <strong><?= $score ?> / 100</strong></p>
+    <h1>Thanks, <?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>!</h1>
+    <p>Your score: <strong><?= $score ?></strong>/100</p>
 
-    <h2>Categories</h2>
-    <div style="display:grid;gap:12px;max-width:800px;">
-      <div style="border:2px solid <?= ($category==='Organized'?'#16a34a':'#e5e7eb') ?>;border-radius:10px;padding:12px;">
-        <strong>Organized (≥ 50)</strong>
-        <p>You plan ahead, use tools, and keep consistent hours. Keep it up!</p>
-      </div>
-      <div style="border:2px solid <?= ($category==='Still finding your rhythm'?'#16a34a':'#e5e7eb') ?>;border-radius:10px;padding:12px;">
-        <strong>Still finding your rhythm (&lt; 50)</strong>
-        <p>Try a simple daily plan and one tool (flashcards or Pomodoro) to build momentum.</p>
-      </div>
-    </div>
+    <section style="display:grid;gap:12px;max-width:800px;">
+      <article class="result-card" style="border:1px solid #d6deee;border-radius:10px;padding:12px;background:#fff;">
+        <h2>Organized Learner</h2>
+        <p>Plans ahead, tracks progress, and uses structured tools. Great at consistency and calm execution.</p>
+        <?php if ($cat === 'Organized Learner'): ?>
+          <p style="color:#065f46;background:#ecfdf5;border:1px solid #10b981;padding:8px;border-radius:8px;">✓ Your category</p>
+        <?php endif; ?>
+      </article>
+
+      <article class="result-card" style="border:1px solid #d6deee;border-radius:10px;padding:12px;background:#fff;">
+        <h2>Explorer</h2>
+        <p>Learns by trying, tinkering, and discovering. High energy—benefits from light routines to channel focus.</p>
+        <?php if ($cat === 'Explorer'): ?>
+          <p style="color:#065f46;background:#ecfdf5;border:1px solid #10b981;padding:8px;border-radius:8px;">✓ Your category</p>
+        <?php endif; ?>
+      </article>
+    </section>
+
+    <p><a href="/home/sgrondin/my_form.php">Take the quiz again</a></p>
   </main>
 
-  <?php include __DIR__ . '/footer.php'; ?>
+  <?php include_once __DIR__ . '/footer.php'; ?>
 </body>
 </html>

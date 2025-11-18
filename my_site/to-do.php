@@ -1,51 +1,36 @@
 <?php
-// to-do.php
-require_once __DIR__ . '/includes/config.php';
-
-// Gate: must be logged in
-if (empty($_SESSION['is_logged_in']) || empty($_SESSION['username'])) {
-  redirect('login.php');
+// require cookie-auth
+if (!isset($_COOKIE['auth']) || $_COOKIE['auth'] !== 'ok') {
+  header('Location: /home/sgrondin/login.php');
+  exit;
 }
-
-$username = $_SESSION['username'];
-
-// Handle logout POST (can also be done in login.php — both acceptable)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout']) && $_POST['logout'] === '1') {
-  session_destroy();
-  session_start();
-  redirect('login.php');
-}
+$username = $_COOKIE['todo-username'] ?? 'friend';
 ?>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title><?= htmlspecialchars($username) ?>’s To-Do List</title>
+  <title><?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>’s To-Do</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="<?= BASE_URL ?>my_style.css">
+  <link rel="stylesheet" href="/home/sgrondin/my_style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <style>
-    /* Simple top-right logout */
-    .logout-wrap{ position:relative; }
-    .logout-wrap form{ position:absolute; right:0; top:-8px; }
-  </style>
 </head>
 <body>
-  <?php include __DIR__ . '/nav.php'; ?>
+  <?php include_once __DIR__ . '/nav.php'; ?>
 
-  <main class="body_wrapper logout-wrap">
-    <form method="post" action="">
+  <main class="body_wrapper">
+    <form method="post" action="/home/sgrondin/login.php" style="position:relative;">
       <input type="hidden" name="logout" value="1">
-      <button type="submit">Log out</button>
+      <button type="submit" style="position:absolute;right:0;top:-10px;">Log out</button>
     </form>
 
-    <h1>Welcome back, <?= htmlspecialchars($username) ?>!</h1>
-    <p>This is your personal to-do list. Items persist in your browser via localStorage.</p>
+    <h1>Welcome back, <?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>!</h1>
+    <p>Write something and click “Add to list”. Items are saved in your browser (localStorage).</p>
 
     <form id="todo-form" onsubmit="addItem(event)">
       <label class="todo-label" for="todo-text">New item</label>
       <div class="todo-input-row">
-        <input type="text" id="todo-text" placeholder="ex: finish lab 9" required>
+        <input type="text" id="todo-text" placeholder="ex: finish lab 9">
         <button type="submit">Add to list</button>
       </div>
     </form>
@@ -53,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout']) && $_POST['
     <ul id="todo-list" class="todo-list"></ul>
   </main>
 
-  <?php include __DIR__ . '/footer.php'; ?>
-  <script src="<?= BASE_URL ?>todo.js"></script>
+  <?php include_once __DIR__ . '/footer.php'; ?>
+  <script src="/home/sgrondin/todo.js"></script>
 </body>
 </html>

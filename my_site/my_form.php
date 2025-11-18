@@ -1,20 +1,19 @@
-<?php // my_form.php ?>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>My quiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="my_style.css">
-  <script src="form.js"></script> <!-- optional client-side checks -->
+  <link rel="stylesheet" href="/home/sgrondin/my_style.css">
+  <script src="/home/sgrondin/form.js"></script>
 </head>
 <body>
-  <?php include_once 'nav.php'; ?>
+  <?php include_once __DIR__ . '/nav.php'; ?>
 
   <main class="body_wrapper">
     <h1>Which type of student are you?</h1>
 
-    <form id="quiz-form" action="quiz_verification.php" method="get">
+    <form id="quiz-form" method="get" action="/home/sgrondin/quiz_verification.php" onsubmit="return validate(event)">
       <fieldset>
         <legend>Tell us about you</legend>
 
@@ -71,6 +70,6 @@
     </form>
   </main>
 
-  <?php include_once 'footer.php'; ?>
+  <?php include_once __DIR__ . '/footer.php'; ?>
 </body>
 </html>
