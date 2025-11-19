@@ -1,44 +1,75 @@
 <?php
-// login.php  — MODEL (top): sessions, handle login/logout, prefill username
-if (session_status() === PHP_SESSION_NONE) { session_start(); }
+// login.php — Lab 9 Parts 1–4
+require_once __DIR__ . '/includes/config.php';
 
+// ------- MODEL -------
 $err = '';
-// Already authenticated? go to to-do
-if (!empty($_SESSION['is_logged_in'])) {
+$info = '';
+$username = $_COOKIE['todo-username'] ?? '';
+$LOCK_SECONDS = 30;
+$REQUIRED_HASH = 'b14e9015dae06b5e206c2b37178eac45e193792c5ccf1d48974552614c61f2ff'; // sha256("CS203")
+
+// Logout flow
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+  session_destroy();
+  session_start();
+  $info = 'Successfully logged out.';
+}
+
+// Already logged-in? Go straight to to-do
+if (is_logged_in()) {
   header('Location: to-do.php');
   exit;
 }
 
-// Logout intent arrives here (from to-do.php)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
-  session_destroy();
-  // restart a clean session so the page can render without warnings
-  session_start();
-  $err = 'Successfully logged out.';
-}
+// Handle login submit
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
+  $username = trim($_POST['username'] ?? '');
+  $password = $_POST['password'] ?? '';
 
-// Handle login attempt
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['password'])) {
-  $u = trim($_POST['username']);
-  $p = $_POST['password'];
-
-  if ($u === '' || $p === '') {
+  if ($username === '' || $password === '') {
     $err = 'Please enter both username and password.';
-  } elseif ($p !== 'CS203') {
-    $err = 'Wrong password. Hint for testing: use CS203.';
   } else {
-    // Success
-    $_SESSION['is_logged_in'] = true;
-    $_SESSION['username'] = $u;
-    // cookie for greeting
-    setcookie('todo-username', $u, time()+60*60*24*30, '/');
-    header('Location: to-do.php');
-    exit;
+    // Part 4: Read attempts and check lockout
+    $attempts = load_attempts();
+    if (!isset($attempts[$username])) {
+      $attempts[$username] = ['attempts'=>0, 'locked_until'=>0];
+    }
+
+    if ($attempts[$username]['locked_until'] > time()) {
+      $remaining = $attempts[$username]['locked_until'] - time();
+      $err = 'Too many wrong tries. Please wait ' . $remaining . 's and try again.';
+    } else {
+      // Check password using hash
+      $ok = hash('sha256', $password) === $REQUIRED_HASH;
+
+      if ($ok) {
+        // Success: reset attempts, set cookie + session, redirect
+        $attempts[$username] = ['attempts'=>0, 'locked_until'=>0];
+        save_attempts($attempts);
+
+        setcookie('todo-username', $username, time()+60*60*24*30, '/'); // 30 days
+        $_SESSION['is_logged_in'] = true;
+        $_SESSION['username'] = $username;
+        header('Location: to-do.php');
+        exit;
+      } else {
+        // Wrong pwd: add an attempt, maybe lock
+        $attempts[$username]['attempts'] += 1;
+        if ($attempts[$username]['attempts'] >= 3) {
+          $attempts[$username]['locked_until'] = time() + $LOCK_SECONDS;
+          $attempts[$username]['attempts'] = 0;
+          $err = 'Wrong password 3 times. You are locked out for '.$LOCK_SECONDS.' seconds.';
+        } else {
+          $err = 'Wrong password. Tries: ' . $attempts[$username]['attempts'] . '/3';
+        }
+        save_attempts($attempts);
+      }
+    }
   }
 }
 
-// Prefill username from cookie
-$prefill = $_COOKIE['todo-username'] ?? '';
+// ------- VIEW -------
 ?>
 <!doctype html>
 <html lang="en">
@@ -49,30 +80,32 @@ $prefill = $_COOKIE['todo-username'] ?? '';
   <link rel="stylesheet" href="my_style.css">
 </head>
 <body>
-  <?php include_once 'nav.php'; ?>
+<?php include_once 'nav.php'; ?>
+<main class="body_wrapper">
+  <h1>Login</h1>
 
-  <main class="body_wrapper">
-    <h1>Login</h1>
+  <?php if ($info): ?>
+    <p class="notice"><?= htmlspecialchars($info, ENT_QUOTES, 'UTF-8') ?></p>
+  <?php endif; ?>
+  <?php if ($err): ?>
+    <p class="error"><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8') ?></p>
+  <?php endif; ?>
 
-    <?php if ($err): ?>
-      <p style="color:#b91c1c;font-weight:600;"><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8') ?></p>
-    <?php else: ?>
-      <p style="opacity:.8">Use any username and password <code>CS203</code> to enter.</p>
-    <?php endif; ?>
-
-    <form method="post" action="login.php" style="max-width:520px;">
-      <p>
-        <label for="username">Username</label><br>
-        <input id="username" name="username" type="text" required value="<?= htmlspecialchars($prefill, ENT_QUOTES, 'UTF-8') ?>">
-      </p>
-      <p>
-        <label for="password">Password</label><br>
-        <input id="password" name="password" type="password" required>
-      </p>
-      <p><button type="submit">Login</button></p>
-    </form>
-  </main>
-
-  <?php include_once 'footer.php'; ?>
+  <form method="post" action="login.php" style="max-width:520px;">
+    <p>
+      <label for="username">Username</label><br>
+      <input type="text" id="username" name="username"
+             value="<?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>" required>
+    </p>
+    <p>
+      <label for="password">Password</label><br>
+      <input type="password" id="password" name="password" required>
+    </p>
+    <p>
+      <button type="submit" name="login" value="1">Login</button>
+    </p>
+  </form>
+</main>
+<?php include_once 'footer.php'; ?>
 </body>
 </html>
