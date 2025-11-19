@@ -169,3 +169,53 @@ footer{
   .dropdown-content{ position:static; box-shadow:none; background:var(--nav-bg); }
   .dropdown-content.open{ display:block; }
 }
+/* --- keep nav above content so slideshow arrows never cover it --- */
+.site-nav{ position: sticky; top: 0; z-index: 1000; }
+
+/* Basic nav layout */
+.site-nav { display:flex; align-items:center; gap:.5rem; padding:.75rem 1rem; background:#f5f7fb; border-bottom:1px solid #dce2ee; }
+.nav-logo { display:flex; align-items:center; gap:.5rem; text-decoration:none; }
+.nav-logo img { height:28px; width:auto; display:block; }
+.logo-text { font-weight:700; color:#0b1220; }
+.nav-links { display:flex; align-items:center; gap:.25rem; }
+.site-nav a { text-decoration:none; padding:.5rem .75rem; border-radius:.5rem; color:#0b1220; }
+.site-nav a.current_page { background:#0b1220; color:#fff !important; }
+
+/* Dropdown */
+.dropdown { position:relative; }
+.dropbtn { background:#0b1220; color:#fff; border:none; padding:.5rem .75rem; border-radius:.5rem; cursor:pointer; }
+.dropdown-content {
+  display:none; position:absolute; top:100%; left:0; min-width:220px;
+  background:#fff; border:1px solid #dce2ee; border-radius:.5rem; box-shadow:0 10px 20px rgba(0,0,0,.12); z-index:1001;
+}
+.dropdown-content a { display:block; padding:.6rem .9rem; color:#0b1220; }
+.dropdown-content a:hover { background:#f1f5ff; }
+
+/* Desktop: also open on hover */
+@media (min-width: 900px) {
+  .dropdown:hover .dropdown-content { display:block; }
+}
+
+/* Hamburger */
+.hamburger { margin-left:auto; background:#0b1220; color:#fff; border:none; padding:.5rem .75rem; border-radius:.5rem; display:none; cursor:pointer; }
+
+/* Mobile layout */
+@media (max-width: 899px) {
+  .hamburger { display:block; }
+  .nav-links {
+    display:none; flex-direction:column; gap:0; width:100%;
+    position:absolute; top:100%; left:0; background:#f5f7fb; border-top:1px solid #dce2ee;
+  }
+  .nav-links.open { display:flex; }
+  .nav-links > a, .nav-links > .dropdown { width:100%; }
+  .nav-links > a { padding:.9rem 1rem; }
+
+  .dropbtn { width:100%; text-align:left; border-radius:0; background:transparent; color:#0b1220; }
+  .dropdown-content { position:static; box-shadow:none; border:none; border-top:1px solid #e5e7eb; }
+  .dropdown-content.open { display:block; }
+}
+
+/* Slideshow spacing so it never touches the nav */
+.slideshow{ margin-top:12px; }
+#slide-prev,#slide-next{ z-index:10; }
+

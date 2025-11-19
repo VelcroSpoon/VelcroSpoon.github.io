@@ -1,75 +1,121 @@
-"use strict";
+/* marketplace.js — simple client-side marketplace with localStorage cart */
 
-// ----- data structures -----
-function Cart(taxRate) {
-  this.itemGroups = [];
-  this.taxRate = typeof taxRate === "number" ? taxRate : 0.15;
+const ITEMS = [
+  {
+    id: "bc-print",
+    title: "Moraine Lake Print",
+    price: 24.99,
+    img: "images/BritishColumbia.jpg",
+    tags: ["canada","lake","mountains","print"]
+  },
+  {
+    id: "colosseum-poster",
+    title: "Colosseum Poster",
+    price: 19.99,
+    img: "images/Colosseum.jpg",
+    tags: ["italy","rome","history","poster"]
+  },
+  {
+    id: "jp-countryside",
+    title: "Japan Countryside Print",
+    price: 17.50,
+    img: "images/countryside.webp",
+    tags: ["japan","countryside","print"]
+  },
+  {
+    id: "desert-sunset",
+    title: "Desert Mountains Poster",
+    price: 14.99,
+    img: "images/desertmountains.jpg",
+    tags: ["desert","sunset","poster"]
+  },
+  {
+    id: "lavender-lake",
+    title: "Lavender Lake Print",
+    price: 21.00,
+    img: "images/lavender.jpg",
+    tags: ["flowers","lake","print"]
+  },
+  {
+    id: "mont-saint-michel",
+    title: "Mont-Saint-Michel Poster",
+    price: 18.75,
+    img: "images/Mont-Saint-Michel-Normandy.jpg",
+    tags: ["france","poster","landmark"]
+  },
+  {
+    id: "versailles-garden",
+    title: "Versailles Gardens Print",
+    price: 22.00,
+    img: "images/Palace-of-Versailles.jpg",
+    tags: ["france","palace","print"]
+  }
+];
+
+const elMarket = document.getElementById('market');
+const elEmpty  = document.getElementById('empty');
+const elSearch = document.getElementById('search');
+const elCartCount = document.getElementById('cart-count');
+
+function getCart() {
+  try { return JSON.parse(localStorage.getItem('cart') || "[]"); }
+  catch { return []; }
 }
-Cart.prototype.addItemGroup = function (itemGroup) {
-  if (!itemGroup) throw new Error("addItemGroup: missing itemGroup");
-  if (typeof itemGroup.pricePerItem !== "number" || typeof itemGroup.quantity !== "number") {
-    throw new Error("addItemGroup: pricePerItem and quantity must be numbers");
-  }
-  this.itemGroups.push(itemGroup);
-};
-Cart.prototype.getTotalAmount = function () {
-  var amount = 0;
-  for (var i = 0; i < this.itemGroups.length; i++) {
-    var g = this.itemGroups[i];
-    amount += g.pricePerItem * g.quantity;
-  }
-  return amount;
-};
-Cart.prototype.renderInto = function (el) {
-  if (!el) return;
-
-  var count = this.itemGroups.length;
-  var subtotal = this.getTotalAmount();
-  var totalWithTax = subtotal * (1 + this.taxRate);
-
-  var html = "";
-  html += "<h2>1) Creating the cart</h2>";
-  if (count === 0) {
-    html += "<p>You have 0 item group, for a total amount of $0.00, in your cart!</p>";
-  } else {
-    html += "<p>Cart has <strong>" + count + "</strong> item group" + (count !== 1 ? "s" : "") +
-            ". Subtotal: <strong>$" + subtotal.toFixed(2) + "</strong>. " +
-            "Total with taxes (" + (this.taxRate * 100).toFixed(1) + "%): " +
-            "<strong>$" + totalWithTax.toFixed(2) + "</strong>.</p>";
-  }
-
-  if (count > 0) {
-    html += "<ul>";
-    for (var i = 0; i < this.itemGroups.length; i++) {
-      var it = this.itemGroups[i];
-      html += "<li>" + it.name + " — $" + it.pricePerItem.toFixed(2) + " × " + it.quantity + "</li>";
-    }
-    html += "</ul>";
-  }
-
-  el.innerHTML = html;
-};
-
-function ItemGroup(name, pricePerItem, quantity) {
-  this.name = String(name || "");
-  this.pricePerItem = Number(pricePerItem) || 0;
-  this.quantity = Number(quantity) || 0;
+function setCart(arr) {
+  localStorage.setItem('cart', JSON.stringify(arr));
+  updateCartCount();
+}
+function updateCartCount() {
+  const n = getCart().reduce((sum, item) => sum + item.qty, 0);
+  if (elCartCount) elCartCount.textContent = n;
 }
 
-// ----- demo render on load -----
-(function () {
-  var out = document.getElementById("market-output");
-  if (!out) return;
+// Render cards
+function render(list) {
+  elMarket.innerHTML = "";
+  if (!list.length) {
+    elEmpty.style.display = "block";
+    return;
+  }
+  elEmpty.style.display = "none";
 
-  var my_cart = new Cart();      // default 15% tax
-  my_cart.renderInto(out);       // initial empty view
+  for (const it of list) {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${it.img}" alt="${it.title}">
+      <div class="body">
+        <h3>${it.title}</h3>
+        <div class="price">$${it.price.toFixed(2)}</div>
+      </div>
+      <button type="button" data-id="${it.id}">Add to cart</button>
+    `;
+    card.querySelector('button').addEventListener('click', () => addToCart(it.id));
+    elMarket.appendChild(card);
+  }
+}
 
-  // sample data (pants, coat)
-  var pants = new ItemGroup("pants", 10.05, 15);
-  my_cart.addItemGroup(pants);
-  my_cart.renderInto(out);
+function addToCart(id) {
+  const cart = getCart();
+  const row = cart.find(r => r.id === id);
+  if (row) row.qty += 1;
+  else cart.push({ id, qty: 1 });
+  setCart(cart);
+}
 
-  var coat = new ItemGroup("coat", 99.99, 1);
-  my_cart.addItemGroup(coat);
-  my_cart.renderInto(out);
-})();
+function filter(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return ITEMS;
+  return ITEMS.filter(it =>
+    it.title.toLowerCase().includes(q) ||
+    it.tags.some(t => t.toLowerCase().includes(q))
+  );
+}
+
+// Init
+render(ITEMS);
+updateCartCount();
+
+if (elSearch) {
+  elSearch.addEventListener('input', (e) => render(filter(e.target.value)));
+}

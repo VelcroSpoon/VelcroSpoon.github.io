@@ -1,46 +1,86 @@
 <?php
-// Optional greeting if you already set username cookie/session elsewhere
-session_start();
-$u = $_SESSION['username'] ?? ($_COOKIE['todo-username'] ?? null);
+// nav.php — single source of truth for the top navigation
+
+// Start session only if not already started (prevents the notice you saw)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// who’s logged in (from session or cookie)
+$user = $_SESSION['username'] ?? ($_COOKIE['todo-username'] ?? null);
+
+// simple helper to mark active link
+$here = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+function active($file) {
+    global $here;
+    return $here === $file ? ' current_page' : '';
+}
 ?>
-<nav class="site-nav">
-  <!-- Logo linked to Home; AVIF + PNG fallback -->
-  <a href="index.php" class="nav-logo" aria-label="Home" style="display:flex;align-items:center;gap:.5rem;">
+<nav class="site-nav" role="navigation">
+  <!-- Logo / Home -->
+  <a href="index.php" class="nav-logo" aria-label="Home">
     <picture>
       <source srcset="images/bird.avif" type="image/avif">
-      <img src="images/bird.png" alt="Site logo" style="height:36px;width:auto;display:block;">
+      <img src="images/bird.png" alt="Site logo" />
     </picture>
-    <span class="logo-text" style="font-weight:700;color:#111;">Simon</span>
+    <span class="logo-text">Simon</span>
   </a>
 
-  <div class="nav-links" style="display:flex;align-items:center;gap:.25rem;margin-left:1rem;">
-    <a href="index.php" class="current_page">Home</a>
+  <!-- Hamburger (mobile) -->
+  <button id="hamburger" class="hamburger" aria-controls="nav-links" aria-expanded="false">☰</button>
 
-    <!-- Discover me dropdown (pure CSS hover on desktop) -->
-    <div class="dropdown" style="position:relative;">
-      <button class="dropbtn" style="background:#333;color:#fff;border:none;padding:.5rem .75rem;border-radius:.5rem;cursor:pointer;">
-        Discover me ▾
-      </button>
-      <div class="dropdown-content" style="display:none;position:absolute;top:100%;left:0;background:#333;min-width:220px;border-radius:.5rem;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:10;">
-        <a href="my_artistic_self.php" style="display:block;padding:.6rem .9rem;color:#fff;text-decoration:none;">My Artistic Self</a>
-        <a href="my_vacation.php" style="display:block;padding:.6rem .9rem;color:#fff;text-decoration:none;">My Dream Vacation</a>
+  <!-- Links -->
+  <div id="nav-links" class="nav-links">
+    <a href="index.php" class="<?= active('index.php') ?>">Home</a>
+
+    <!-- Dropdown -->
+    <div class="dropdown">
+      <button id="dropbtn" class="dropbtn" aria-haspopup="true" aria-expanded="false">Discover me ▾</button>
+      <div id="dropdown-content" class="dropdown-content" role="menu">
+        <a href="my_artistic_self.php" class="<?= active('my_artistic_self.php') ?>">My Artistic Self</a>
+        <a href="my_vacation.php"      class="<?= active('my_vacation.php') ?>">My Vacation</a>
       </div>
     </div>
 
-    <a href="marketplace.php">Marketplace</a>
-    <a href="my_form.php">My quiz</a>
-    <a href="login.php">To-Do (login)</a>
-  </div>
+    <a href="marketplace.php" class="<?= active('marketplace.php') ?>">Marketplace</a>
+    <a href="my_form.php"     class="<?= active('my_form.php') ?>">My quiz</a>
+    <a href="login.php"       class="<?= active('login.php') ?>">To-Do (login)</a>
 
-  <?php if ($u): ?>
-    <span style="margin-left:auto;opacity:.8;padding:.25rem .5rem;">
-      Hello, <?= htmlspecialchars($u, ENT_QUOTES, 'UTF-8') ?>!
-    </span>
-  <?php endif; ?>
+    <?php if ($user): ?>
+      <span style="margin-left:auto;opacity:.85;padding:.25rem .5rem;">Hello, <?= htmlspecialchars($user, ENT_QUOTES, 'UTF-8') ?>!</span>
+    <?php endif; ?>
+  </div>
 </nav>
 
-<style>
-/* minimal CSS so dropdown works on desktop */
-.site-nav a { text-decoration:none; }
-.dropdown:hover .dropdown-content { display:block; }
-</style>
+<script>
+// Make dropdown + hamburger work immediately on first load (desktop & mobile)
+
+// Hamburger toggles full link group
+const ham = document.getElementById('hamburger');
+const links = document.getElementById('nav-links');
+if (ham && links) {
+  ham.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    ham.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+}
+
+// Dropdown works by click (mobile & desktop). On wide screens it also opens on hover via CSS.
+const dropBtn = document.getElementById('dropbtn');
+const drop = document.getElementById('dropdown-content');
+if (dropBtn && drop) {
+  dropBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const open = drop.classList.toggle('open');
+    dropBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!drop.contains(e.target) && !dropBtn.contains(e.target)) {
+      drop.classList.remove('open');
+      dropBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+</script>
