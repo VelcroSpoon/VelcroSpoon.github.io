@@ -17,7 +17,7 @@ error_reporting(E_ALL);
   <main class="body_wrapper">
     <h1>Which type of student are you?</h1>
 
-    <!-- IMPORTANT: action is relative, method is GET -->
+  
     <form id="quiz-form" action="quiz_verification.php" method="get">
       <fieldset>
         <legend>Tell us about you</legend>

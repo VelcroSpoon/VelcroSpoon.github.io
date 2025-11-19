@@ -2,7 +2,6 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// ===== guard required GETs before ANY HTML =====
 if (
   !isset($_GET['name']) || trim($_GET['name']) === '' ||
   !isset($_GET['plan'])
@@ -28,13 +27,13 @@ if (
   exit;
 }
 
-// Safe values
+
 $name  = htmlspecialchars(trim($_GET['name']), ENT_QUOTES, 'UTF-8');
 $plan  = $_GET['plan'] ?? 'wing-it';
 $tools = $_GET['tools'] ?? [];
 $hours = (int)($_GET['hours'] ?? 0);
 
-// Simple score example
+
 $score = 0;
 if ($plan === 'daily')  $score += 40;
 if ($plan === 'weekly') $score += 25;
@@ -42,7 +41,7 @@ $score += min($hours * 5, 25);
 $score += (is_array($tools) ? count($tools) : 0) * 5;
 if ($score > 100) $score = 100;
 
-// Category
+
 $category = ($score >= 50) ? 'Organized' : 'Chaotic';
 ?>
 <!doctype html>

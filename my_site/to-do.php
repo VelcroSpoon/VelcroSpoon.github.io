@@ -1,5 +1,4 @@
 <?php
-// to-do.php — must be protected
 require_once __DIR__ . '/includes/config.php';
 
 if (!is_logged_in()) {

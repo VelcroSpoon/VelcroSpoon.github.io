@@ -1,4 +1,3 @@
-// marketplace.js — searchable marketplace with your real items
 
 const INVENTORY = [
   { id: 101, name: "Apple (1 lb bag)",     price: 3.49,   tags: ["apple","fruit","food","produce"], img: "images/apple.webp" },

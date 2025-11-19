@@ -1,9 +1,7 @@
 <?php
-// nav.php
-// Don't start a session here — config.php already did.
 $u = $_SESSION['username'] ?? ($_COOKIE['todo-username'] ?? null);
 
-// Simple “current page” marker
+
 $current = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '');
 function active($file) {
   global $current;
@@ -40,7 +38,7 @@ function active($file) {
   <button id="hamburger" class="hamburger" aria-expanded="false" aria-controls="navmenu">☰</button>
 </nav>
 <script>
-  // Small JS to toggle hamburger + mobile dropdown click
+  
   (function(){
     const btn = document.getElementById('hamburger');
     const links = document.querySelector('.nav-links');
@@ -53,7 +51,7 @@ function active($file) {
     document.querySelectorAll('.dropdown .dropbtn').forEach(b=>{
       b.addEventListener('click', (e)=>{
         const menu = b.parentElement.querySelector('.dropdown-content');
-        if (getComputedStyle(menu).position === 'static') { // mobile mode
+        if (getComputedStyle(menu).position === 'static') {
           e.preventDefault();
           menu.classList.toggle('open');
         }

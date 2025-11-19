@@ -1,5 +1,5 @@
 <?php
-// Show PHP errors while you fix things locally. Remove later.
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 ?>
@@ -10,10 +10,10 @@ error_reporting(E_ALL);
   <title>Simon Grondin</title>
   <meta name="author" content="Simon Grondin">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- RELATIVE path so it works in a subfolder -->
+  
   <link rel="stylesheet" href="my_style.css">
   <style>
-    /* Keep nav above the slideshow; prevents hamburger from being hidden */
+    
     .site-nav { position: sticky; top: 0; z-index: 1000; }
     .slideshow { margin-top: 12px; }
     #slide-prev, #slide-next { z-index: 10; }

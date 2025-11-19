@@ -1,22 +1,21 @@
 <?php
-// login.php — Lab 9 Parts 1–4
+
 require_once __DIR__ . '/includes/config.php';
 
-// ------- MODEL -------
+
 $err = '';
 $info = '';
 $username = $_COOKIE['todo-username'] ?? '';
 $LOCK_SECONDS = 30;
 $REQUIRED_HASH = 'b14e9015dae06b5e206c2b37178eac45e193792c5ccf1d48974552614c61f2ff'; // sha256("CS203")
 
-// Logout flow
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
   session_destroy();
   session_start();
   $info = 'Successfully logged out.';
 }
 
-// Already logged-in? Go straight to to-do
 if (is_logged_in()) {
   header('Location: to-do.php');
   exit;
@@ -30,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
   if ($username === '' || $password === '') {
     $err = 'Please enter both username and password.';
   } else {
-    // Part 4: Read attempts and check lockout
+    
     $attempts = load_attempts();
     if (!isset($attempts[$username])) {
       $attempts[$username] = ['attempts'=>0, 'locked_until'=>0];
@@ -44,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
       $ok = hash('sha256', $password) === $REQUIRED_HASH;
 
       if ($ok) {
-        // Success: reset attempts, set cookie + session, redirect
+        
         $attempts[$username] = ['attempts'=>0, 'locked_until'=>0];
         save_attempts($attempts);
 
@@ -54,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         header('Location: to-do.php');
         exit;
       } else {
-        // Wrong pwd: add an attempt, maybe lock
+       
         $attempts[$username]['attempts'] += 1;
         if ($attempts[$username]['attempts'] >= 3) {
           $attempts[$username]['locked_until'] = time() + $LOCK_SECONDS;
@@ -69,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
   }
 }
 
-// ------- VIEW -------
+
 ?>
 <!doctype html>
 <html lang="en">
