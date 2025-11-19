@@ -1,11 +1,15 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+?>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>My quiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/home/sgrondin/my_style.css">
-  <script src="/home/sgrondin/form.js"></script>
+  <link rel="stylesheet" href="my_style.css">
+  <script src="form.js" defer></script>
 </head>
 <body>
   <?php include_once __DIR__ . '/nav.php'; ?>
@@ -13,7 +17,8 @@
   <main class="body_wrapper">
     <h1>Which type of student are you?</h1>
 
-    <form id="quiz-form" method="get" action="/home/sgrondin/quiz_verification.php" onsubmit="return validate(event)">
+    <!-- IMPORTANT: action is relative, method is GET -->
+    <form id="quiz-form" action="quiz_verification.php" method="get">
       <fieldset>
         <legend>Tell us about you</legend>
 
@@ -24,7 +29,7 @@
 
         <p>
           <label for="email">Email</label><br>
-          <input type="email" id="email" name="email" placeholder="jane@example.com">
+          <input type="email" id="email" name="email" placeholder="jane@example.com" required>
         </p>
 
         <hr>
@@ -47,7 +52,7 @@
 
         <p>
           <label for="hours">3) Avg. study hours per day</label><br>
-          <input type="number" id="hours" name="hours" min="0" max="24" step="1" placeholder="e.g., 3">
+          <input type="number" id="hours" name="hours" min="0" max="24" step="1" placeholder="e.g., 3" required>
         </p>
 
         <p>

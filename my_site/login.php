@@ -1,44 +1,50 @@
 <?php
-// ============ MODEL ============
-$ERROR = '';
-$JUST_LOGGED_OUT = false;
+// ===== MODEL (top) =====
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+session_start();
 
-// Already authenticated? go to to-do
-if (isset($_COOKIE['auth']) && $_COOKIE['auth'] === 'ok') {
-  header('Location: /home/sgrondin/to-do.php');
+$err = '';
+$justLoggedOut = false;
+
+// Handle logout
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+  session_destroy();
+  // restart empty session to render page safely
+  session_start();
+  $justLoggedOut = true;
+}
+
+// If already logged in, go directly to to-do
+if (!isset($_POST['logout']) && !empty($_SESSION['is_logged_in'])) {
+  header('Location: to-do.php');
   exit;
 }
 
-// Logout flow (from to-do.php button)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['logout'] ?? '') === '1') {
-  setcookie('auth', '', time()-3600, '/');
-  setcookie('todo-username', '', time()-3600, '/');
-  $JUST_LOGGED_OUT = true;
-}
+// Cached username from cookie
+$savedName = $_COOKIE['todo-username'] ?? '';
 
-// Login submit
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['login'] ?? '') === '1') {
-  $user = trim($_POST['username'] ?? '');
-  $pass = $_POST['password'] ?? '';
+// Handle login submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['password'])) {
+  $username = trim($_POST['username']);
+  $password = (string)$_POST['password'];
 
-  if ($user === '' || $pass === '') {
-    $ERROR = 'Please enter both username and password.';
+  if ($username === '' || $password === '') {
+    $err = 'Please enter both username and password.';
   } else {
-    $expectedHash = 'b14e9015dae06b5e206c2b37178eac45e193792c5ccf1d48974552614c61f2ff'; // sha256("CS203")
-    $givenHash    = hash('sha256', $pass);
-    if (hash_equals($expectedHash, $givenHash)) {
-      setcookie('auth', 'ok', time()+2*3600, '/');                    // 2 hours
-      setcookie('todo-username', $user, time()+30*24*3600, '/');      // 30 days
-      header('Location: /home/sgrondin/to-do.php');
+    // Hash check (no plain "CS203" in the code)
+    $okHash = 'b14e9015dae06b5e206c2b37178eac45e193792c5ccf1d48974552614c61f2ff'; // hash('sha256', 'CS203')
+    if (hash('sha256', $password) === $okHash) {
+      $_SESSION['is_logged_in'] = true;
+      $_SESSION['username'] = $username;
+      setcookie('todo-username', $username, time() + 86400*30, '/'); // 30 days
+      header('Location: to-do.php');
       exit;
     } else {
-      $ERROR = 'Wrong password.';
+      $err = 'Wrong password.';
     }
   }
 }
-
-$PREFILL_USER = $_COOKIE['todo-username'] ?? '';
-// ============ VIEW ============
 ?>
 <!doctype html>
 <html lang="en">
@@ -46,38 +52,38 @@ $PREFILL_USER = $_COOKIE['todo-username'] ?? '';
   <meta charset="utf-8">
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/home/sgrondin/my_style.css">
+  <link rel="stylesheet" href="my_style.css">
 </head>
 <body>
   <?php include_once __DIR__ . '/nav.php'; ?>
 
   <main class="body_wrapper">
-    <h1>Login to access your To-Do list</h1>
+    <h1>Login</h1>
 
-    <?php if ($JUST_LOGGED_OUT): ?>
-      <p style="color:#065f46;background:#ecfdf5;border:1px solid #10b981;padding:8px 12px;border-radius:8px;max-width:600px;">
+    <?php if ($justLoggedOut): ?>
+      <p style="color:#065f46;background:#ecfdf5;border:1px solid #a7f3d0;padding:.5rem .75rem;border-radius:.5rem;">
         Successfully logged out.
       </p>
     <?php endif; ?>
 
-    <?php if ($ERROR): ?>
-      <p style="color:#b91c1c;background:#fef2f2;border:1px solid #ef4444;padding:8px 12px;border-radius:8px;max-width:600px;">
-        <?= htmlspecialchars($ERROR, ENT_QUOTES, 'UTF-8') ?>
+    <?php if ($err !== ''): ?>
+      <p style="color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;padding:.5rem .75rem;border-radius:.5rem;">
+        <?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8') ?>
       </p>
     <?php endif; ?>
 
-    <form method="post" action="/home/sgrondin/login.php" style="max-width:520px;">
-      <input type="hidden" name="login" value="1">
+    <form method="post" action="login.php" style="max-width:520px;">
       <p>
         <label for="username">Username</label><br>
-        <input id="username" name="username" type="text" required value="<?= htmlspecialchars($PREFILL_USER, ENT_QUOTES, 'UTF-8') ?>">
+        <input type="text" id="username" name="username"
+               value="<?= htmlspecialchars($savedName, ENT_QUOTES, 'UTF-8') ?>"
+               required>
       </p>
       <p>
         <label for="password">Password</label><br>
-        <input id="password" name="password" type="password" required>
+        <input type="password" id="password" name="password" required>
       </p>
       <p><button type="submit">Login</button></p>
-      <p style="opacity:.75">Hint: the password is the course code you used earlier (checked via SHA-256 hash).</p>
     </form>
   </main>
 
