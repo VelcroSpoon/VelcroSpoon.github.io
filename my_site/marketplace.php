@@ -1,4 +1,4 @@
-<?php /* marketplace.php */ ?>
+<?php?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="my_style.css">
   <style>
-    /* page-local styles so it still looks good even if CSS cache is stale */
+    
     .mp-wrap{max-width:1000px;margin:0 auto;}
     .mp-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
     .mp-input{flex:1 1 340px;padding:10px 12px;border:1px solid #cfd7e6;border-radius:10px;}
@@ -48,7 +48,7 @@
 
   <?php include_once 'footer.php'; ?>
 
-  <!-- Inline JS (removes any path/caching issues) -->
+  
   <script>
   (function(){
     const INVENTORY = [
@@ -64,7 +64,7 @@
     const $grid= document.getElementById('mp-list');
     const $ul  = document.getElementById('mp-ul');
 
-    // Safe HTML
+    
     const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
     function renderPlainList(items){
@@ -84,7 +84,7 @@
 
     function renderCards(items){
       if (!items.length){
-        $grid.className = ''; // remove grid styles
+        $grid.className = ''; 
         $grid.innerHTML = '<p>No items match your search.</p>';
         return;
       }
@@ -123,7 +123,7 @@
       renderCards(data);
     }
 
-    // chips
+    
     (function buildChips(){
       const chipWords = ["apple", "bicycle", "brush", "hammer", "≤20"];
       $sug.innerHTML = '';
@@ -137,11 +137,11 @@
       });
     })();
 
-    // interactions
+    
     $btn.addEventListener('click', handleSearch);
     $q.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); handleSearch(); }});
 
-    // initial render
+    
     renderCards(INVENTORY);
     renderPlainList(INVENTORY);
   })();
