@@ -1,75 +1,61 @@
 <?php
-$__cur = strtolower(basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: 'index.php'));
+$u = $_SESSION['username'] ?? ($_COOKIE['todo-username'] ?? null);
 
-if (!function_exists('nav_active')) {
-  function nav_active($file) {
-    $cur = isset($GLOBALS['__cur']) ? $GLOBALS['__cur'] : '';
-    return $cur === strtolower($file) ? ' class="current_page"' : '';
-  }
+
+$current = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '');
+function active($file) {
+  global $current;
+  return $current === $file ? ' class="current_page"' : '';
 }
 ?>
-<nav class="site-nav" role="navigation">
+<nav class="site-nav">
   <a href="index.php" class="nav-logo" aria-label="Home">
-    <picture>
-      <source srcset="images/bird.avif" type="image/avif">
-     
-      <img src="images/bird.png" alt="Site logo"
-           onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'MySite',className:'logo-text'}));">
-    </picture>
+    <img src="images/bird.png" alt="Simon" />
   </a>
 
-
   <div class="nav-links">
-    <a href="index.php"<?php echo nav_active('index.php'); ?>>Home</a>
+    <a<?=active('index.php')?> href="index.php">Home</a>
 
-   
     <div class="dropdown">
-      <button class="dropbtn" type="button" aria-haspopup="true" aria-expanded="false">
-        Discover me! <span aria-hidden="true">▾</span>
-      </button>
-      <div class="dropdown-content" role="menu" aria-label="Discover me">
-        <a href="my_artistic_self.php"<?php echo nav_active('my_artistic_self.php'); ?> role="menuitem">My Artistic Self</a>
-        <a href="my_vacation.php"<?php echo nav_active('my_vacation.php'); ?> role="menuitem">My Dream Vacation</a>
+      <button type="button" class="dropbtn">Discover me ▾</button>
+      <div class="dropdown-content">
+        <a<?=active('my_artistic_self.php')?> href="my_artistic_self.php">My artistic self</a>
+        <a<?=active('my_vacation.php')?> href="my_vacation.php">My dream vacation</a>
       </div>
     </div>
 
-    <a href="marketplace.php"<?php echo nav_active('marketplace.php'); ?>>Marketplace</a>
-    <a href="my_form.php"<?php echo nav_active('my_form.php'); ?>>My Quiz</a>
-    <a href="login.php"<?php echo nav_active('login.php'); ?>>To-Do</a>
+    <a<?=active('marketplace.php')?> href="marketplace.php">Marketplace</a>
+    <a<?=active('my_form.php')?> href="my_form.php">My quiz</a>
+    <a<?=active('login.php')?> href="login.php">To-Do (login)</a>
   </div>
 
+  <?php if ($u): ?>
+    <span style="margin-left:auto;opacity:.85;padding:.25rem .5rem;">
+      Hello, <?= htmlspecialchars($u, ENT_QUOTES, 'UTF-8') ?>!
+    </span>
+  <?php endif; ?>
 
-  <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  <button id="hamburger" class="hamburger" aria-expanded="false" aria-controls="navmenu">☰</button>
 </nav>
-
 <script>
-
-(() => {
-  const nav = document.querySelector('.site-nav');
-  if (!nav) return;
-
-  const burger     = nav.querySelector('.hamburger');
-  const linksWrap  = nav.querySelector('.nav-links');
-  const dropBtn    = nav.querySelector('.dropbtn');
-  const dropMenu   = nav.querySelector('.dropdown-content');
-
-
-  if (burger && linksWrap) {
-    burger.addEventListener('click', () => {
-      const open = linksWrap.classList.toggle('open');
-      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-
-    
-      if (!open && dropMenu) dropMenu.classList.remove('open');
+  
+  (function(){
+    const btn = document.getElementById('hamburger');
+    const links = document.querySelector('.nav-links');
+    if(btn && links){
+      btn.addEventListener('click', ()=>{
+        const open = links.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+    document.querySelectorAll('.dropdown .dropbtn').forEach(b=>{
+      b.addEventListener('click', (e)=>{
+        const menu = b.parentElement.querySelector('.dropdown-content');
+        if (getComputedStyle(menu).position === 'static') {
+          e.preventDefault();
+          menu.classList.toggle('open');
+        }
+      });
     });
-  }
-
-
-  if (dropBtn && dropMenu) {
-    dropBtn.addEventListener('click', () => {
-      const isOpen = dropMenu.classList.toggle('open');
-      dropBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-  }
-})();
+  })();
 </script>

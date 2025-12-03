@@ -1,17 +1,23 @@
-<!DOCTYPE html>
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+?>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title>My quiz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="my_style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="my_style.css">
+  <script src="form.js" defer></script>
 </head>
 <body>
-  <?php include_once 'nav.php'; ?>
+  <?php include_once __DIR__ . '/nav.php'; ?>
 
   <main class="body_wrapper">
     <h1>Which type of student are you?</h1>
 
+  
     <form id="quiz-form" action="quiz_verification.php" method="get">
       <fieldset>
         <legend>Tell us about you</legend>
@@ -46,7 +52,7 @@
 
         <p>
           <label for="hours">3) Avg. study hours per day</label><br>
-          <input type="number" id="hours" name="hours" min="0" max="24" step="1" placeholder="e.g., 3">
+          <input type="number" id="hours" name="hours" min="0" max="24" step="1" placeholder="e.g., 3" required>
         </p>
 
         <p>
@@ -69,7 +75,6 @@
     </form>
   </main>
 
-  <?php include_once 'footer.php'; ?>
-  <script src="form.js"></script>
+  <?php include_once __DIR__ . '/footer.php'; ?>
 </body>
 </html>
