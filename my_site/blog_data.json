@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "date": "2025-11-25",
+    "title": "Balancing code, classes, and coffee",
+    "paragraphs": [
+      "This semester has been a wild mix of coding assignments, math proofs, and a constantly refilled coffee mug. Building projects for CS203 has forced me to think about structure, not just making something that barely works.",
+      "Working on this website made me realize how much I enjoy connecting design and logic. It’s satisfying to see PHP, JSON, and JavaScript all talking to each other and turning into something that feels like a real product."
+    ],
+    "tags": ["cs203", "university", "life"]
+  },
+  {
+    "id": 2,
+    "date": "2025-11-28",
+    "title": "Why I’m excited about building things on the web",
+    "paragraphs": [
+      "The more I learn about web development, the more I appreciate how fast ideas can become something others can see and use. A simple change in HTML or CSS can completely change how a page feels.",
+      "Even though PHP and JavaScript can be frustrating at times, I like the feeling of slowly gaining control over the tools. Each lab adds a new piece: forms, validation, JSON, login, and now a blog that brings everything together."
+    ],
+    "tags": ["web", "projects", "motivation"]
+  }
+]
